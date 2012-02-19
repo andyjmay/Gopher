@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
 
 namespace Gopher.Core.Data.Json.Repositories {
+  [Export(typeof(IFolderRepository))]
   public class JsonFolderRepository : IFolderRepository {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;

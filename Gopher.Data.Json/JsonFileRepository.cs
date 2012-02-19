@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Gopher.Core.Logging;
@@ -7,6 +8,7 @@ using Gopher.Core.Models;
 using Newtonsoft.Json;
 
 namespace Gopher.Core.Data.Json.Repositories {
+  [Export(typeof(IFileRepository))]
   public class JsonFileRepository : IFileRepository {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;
