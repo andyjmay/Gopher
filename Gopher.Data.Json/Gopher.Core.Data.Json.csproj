@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6229B76C-6318-477E-9041-5A00F4393B35}</ProjectGuid>
+    <ProjectGuid>{90E514E2-EC99-48C5-9314-90B86E3F4CA8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gopher.Core</RootNamespace>
-    <AssemblyName>Gopher.Core</AssemblyName>
+    <RootNamespace>Gopher.Data.Json</RootNamespace>
+    <AssemblyName>Gopher.Data.Json</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,25 +31,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\IFolderToScanRepository.cs" />
-    <Compile Include="Data\IFileRepository.cs" />
-    <Compile Include="Data\IFolderRepository.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Models\FolderToScan.cs" />
-    <Compile Include="Models\File.cs" />
-    <Compile Include="Models\Folder.cs" />
+    <Compile Include="JsonFolderToScanRepository.cs" />
+    <Compile Include="JsonFileRepository.cs" />
+    <Compile Include="JsonFolderRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scanner.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Gopher.Core\Gopher.Core.csproj">
+      <Project>{6229B76C-6318-477E-9041-5A00F4393B35}</Project>
+      <Name>Gopher.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

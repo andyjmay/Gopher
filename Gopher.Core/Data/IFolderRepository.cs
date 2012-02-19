@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Gopher.Core.Data {
   public interface IFolderRepository {
-    Folder GetById(int projectFolderId);
+    Folder GetById(int folderId);
 
-    Folder Add(Folder projectFolderToAdd);
+    Folder Add(Folder folderToAdd);
 
-    IEnumerable<Folder> GetProjectFolders();
+    IEnumerable<Folder> GetFolders();
   }
 }
