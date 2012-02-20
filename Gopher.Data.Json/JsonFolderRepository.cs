@@ -5,6 +5,7 @@ using System.Linq;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
+using Gopher.Data.Json.Properties;
 
 namespace Gopher.Core.Data.Json.Repositories {
   [Export(typeof(IFolderRepository))]
@@ -12,6 +13,9 @@ namespace Gopher.Core.Data.Json.Repositories {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;
     int folderIndex = 1;
+
+    [ImportingConstructor]
+    public JsonFolderRepository(ILogger logger) : this(Settings.Default.FolderRepositoryPath, logger) { }
 
     public JsonFolderRepository(string pathToJsonFile, ILogger logger, bool append = false) {
       this.pathToJsonFile = pathToJsonFile;

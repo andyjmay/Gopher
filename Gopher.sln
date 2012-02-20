@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Core.Data.Json", "Go
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Data.Json.Tests", "Gopher.Data.Json.Tests\Gopher.Data.Json.Tests.csproj", "{15EBAFA4-99E2-4164-870E-2EBF98620551}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Console", "Gopher.Console\Gopher.Console.csproj", "{F3B87170-1072-4F12-ADBA-9C3D32D75753}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{15EBAFA4-99E2-4164-870E-2EBF98620551}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15EBAFA4-99E2-4164-870E-2EBF98620551}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15EBAFA4-99E2-4164-870E-2EBF98620551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B87170-1072-4F12-ADBA-9C3D32D75753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B87170-1072-4F12-ADBA-9C3D32D75753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B87170-1072-4F12-ADBA-9C3D32D75753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B87170-1072-4F12-ADBA-9C3D32D75753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

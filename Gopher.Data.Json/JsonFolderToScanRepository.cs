@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
+using Gopher.Data.Json.Properties;
 
 namespace Gopher.Core.Data.Json {
   [Export(typeof(IFolderToScanRepository))]
   public class JsonFolderToScanRepository : IFolderToScanRepository {
     private string pathToJsonFile;
     private int folderToScanIndex;
+
+    public JsonFolderToScanRepository() : this(Settings.Default.FolderToScanRepositoryPath) { }
 
     public JsonFolderToScanRepository(string pathToJsonFile) {
       this.pathToJsonFile = pathToJsonFile;

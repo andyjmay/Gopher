@@ -6,6 +6,7 @@ using System.Text;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
+using Gopher.Data.Json.Properties;
 
 namespace Gopher.Core.Data.Json.Repositories {
   [Export(typeof(IFileRepository))]
@@ -13,7 +14,10 @@ namespace Gopher.Core.Data.Json.Repositories {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;
     int fileIndex = 1;
-    
+
+    [ImportingConstructor]
+    public JsonFileRepository(ILogger logger) : this(Settings.Default.FileRepositoryPath, logger) { }
+
     /// <summary>
     /// Instantiates a new instance of the JSON File Repository
     /// </summary>
