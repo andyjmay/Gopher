@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Core", "Gopher.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Core.Data.Json", "Gopher.Data.Json\Gopher.Core.Data.Json.csproj", "{90E514E2-EC99-48C5-9314-90B86E3F4CA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Data.Json.Tests", "Gopher.Data.Json.Tests\Gopher.Data.Json.Tests.csproj", "{15EBAFA4-99E2-4164-870E-2EBF98620551}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Core.Data.Json.Tests", "Gopher.Data.Json.Tests\Gopher.Core.Data.Json.Tests.csproj", "{15EBAFA4-99E2-4164-870E-2EBF98620551}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Console", "Gopher.Console\Gopher.Console.csproj", "{F3B87170-1072-4F12-ADBA-9C3D32D75753}"
 EndProject

@@ -4,7 +4,7 @@ using Gopher.Core.Data.Json;
 using Gopher.Core.Models;
 using Xunit;
 
-namespace Gopher.Data.Json.Tests {
+namespace Gopher.Core.Data.Json.Tests {
   public class JsonFolderToScanRepositoryTests {
     private string sampleJsonFile = System.Environment.CurrentDirectory + "\\SampleJsonFolderToScanRepository.json";
 

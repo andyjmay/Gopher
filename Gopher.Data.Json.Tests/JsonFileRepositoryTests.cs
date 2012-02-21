@@ -7,7 +7,7 @@ using Gopher.Core.Data.Json.Repositories;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 
-namespace Gopher.Data.Json.Tests {
+namespace Gopher.Core.Data.Json.Tests {
   public class JsonFileRepositoryTests {
     private string sampleJsonFile = System.Environment.CurrentDirectory + "\\SampleJsonFileRepository.json";
 

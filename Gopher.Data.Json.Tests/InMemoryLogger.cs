@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Gopher.Core.Logging;
 
-namespace Gopher.Data.Json.Tests {
+namespace Gopher.Core.Data.Json.Tests {
   public class InMemoryLogger : ILogger {
     private List<string> logMessages;
 
