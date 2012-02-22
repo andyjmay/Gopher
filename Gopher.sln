@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Console", "Gopher.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Core.Data.Memory", "Gopher.Core.Data.Memory\Gopher.Core.Data.Memory.csproj", "{3032EED3-46FB-4E66-9D9E-356B0C579B0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gopher.Core.Data.Memory.Tests", "Gopher.Core.Data.Memory.Tests\Gopher.Core.Data.Memory.Tests.csproj", "{429E407C-191E-409D-A628-01F4B85A7955}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{3032EED3-46FB-4E66-9D9E-356B0C579B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3032EED3-46FB-4E66-9D9E-356B0C579B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3032EED3-46FB-4E66-9D9E-356B0C579B0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429E407C-191E-409D-A628-01F4B85A7955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429E407C-191E-409D-A628-01F4B85A7955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429E407C-191E-409D-A628-01F4B85A7955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429E407C-191E-409D-A628-01F4B85A7955}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
