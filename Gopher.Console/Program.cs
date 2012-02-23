@@ -8,6 +8,8 @@ using System.Reflection;
 using Gopher.Core.Data;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
+using System.Diagnostics;
+using Gopher.Core;
 
 namespace Gopher.Console {
   public class Program {
@@ -59,11 +61,16 @@ namespace Gopher.Console {
     }
 
     public void Run() {
-      Logger.Info("Beginning to dig...");
-
+      Logger.Info("Beginning to dig...");       
+      Stopwatch stopwatch = new Stopwatch();
+      stopwatch.Start();
       foreach (FolderToScan folder in FolderToScanRepository.GetFoldersToScan()) {
-        
+        Scanner scanner = new Scanner(FileRepository, FolderRepository, Logger);
+        scanner.ScanFolder(new System.IO.DirectoryInfo(folder.AbsolutePath));
+        System.Console.WriteLine(string.Format("Took {0} milliseconds to scan {1}", stopwatch.ElapsedMilliseconds, folder.PathAlias));  
       }
+      System.Console.WriteLine(string.Format("Total run: {0} milliseconds", stopwatch.ElapsedMilliseconds));
+      stopwatch.Stop();
     }
   }
 }

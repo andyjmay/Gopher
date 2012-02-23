@@ -8,15 +8,15 @@ namespace Gopher.Console {
     #region ILogger Members
 
     public void Trace(string message) {
-      System.Console.ForegroundColor = ConsoleColor.DarkGray;
-      System.Console.WriteLine(message);
-      System.Console.ResetColor();
+      //System.Console.ForegroundColor = ConsoleColor.DarkGray;
+      //System.Console.WriteLine(message);
+      //System.Console.ResetColor();
     }
 
     public void Debug(string message) {
-      System.Console.ForegroundColor = ConsoleColor.Gray;
-      System.Console.WriteLine(message);
-      System.Console.ResetColor();
+      //System.Console.ForegroundColor = ConsoleColor.Gray;
+      //System.Console.WriteLine(message);
+      //System.Console.ResetColor();
     }
 
     public void Info(string message) {
