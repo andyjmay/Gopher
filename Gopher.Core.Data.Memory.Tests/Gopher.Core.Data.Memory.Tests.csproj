@@ -51,6 +51,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gopher.Core.Data.Memory\Gopher.Core.Data.Memory.csproj">
+      <Project>{3032EED3-46FB-4E66-9D9E-356B0C579B0D}</Project>
+      <Name>Gopher.Core.Data.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gopher.Core\Gopher.Core.csproj">
+      <Project>{6229B76C-6318-477E-9041-5A00F4393B35}</Project>
+      <Name>Gopher.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

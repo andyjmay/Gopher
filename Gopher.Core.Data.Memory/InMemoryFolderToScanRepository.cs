@@ -12,13 +12,14 @@ namespace Gopher.Core.Data.Memory {
     private int folderToScanIndex;
 
     public InMemoryFolderToScanRepository(int folderToScanIndex = 1) {
+      this.folderToScanIndex = folderToScanIndex;
       foldersToScan = new List<FolderToScan>();
     }
 
     #region IFolderToScanRepository Members
 
     public FolderToScan GetById(int folderToScanId) {
-      return foldersToScan.SingleOrDefault(f => f.FolderToScanId == folderToScanIndex);
+      return foldersToScan.SingleOrDefault(f => f.FolderToScanId == folderToScanId);
     }
 
     public IEnumerable<FolderToScan> GetFoldersToScan() {
