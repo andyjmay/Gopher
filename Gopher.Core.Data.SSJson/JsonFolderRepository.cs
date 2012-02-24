@@ -17,19 +17,20 @@ namespace Gopher.Core.Data.SSJson {
     [ImportingConstructor]
     public JsonFolderRepository(ILogger logger) : this(Settings.Default.FolderRepositoryPath, logger) { }
 
-    public JsonFolderRepository(string pathToJsonFile, ILogger logger, bool append = false) {
+    public JsonFolderRepository(string pathToJsonFile, ILogger logger, bool useExistingFile = false) {
       this.pathToJsonFile = pathToJsonFile;
       this.logger = logger;
 
       if (!System.IO.File.Exists(pathToJsonFile)) {
         System.IO.File.CreateText(pathToJsonFile).Close();
       } else {
-        if (append) {
+        if (useExistingFile) {
           var folders = GetFolders();
           if (folders.Count() != 0) {
             folderIndex = folders.OrderByDescending(p => p.FolderId).First().FolderId + 1;
           }
-          //throw new Exception("The project folder database already exists");
+        } else {
+          System.IO.File.Delete(pathToJsonFile);
         }
       }
     }

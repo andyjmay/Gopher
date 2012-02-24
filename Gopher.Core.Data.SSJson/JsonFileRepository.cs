@@ -23,21 +23,22 @@ namespace Gopher.Core.Data.SSJson {
     /// </summary>
     /// <param name="pathToJsonFile">Full path to the file to use for the JSON File Repository</param>
     /// <param name="logger">Instance of logger</param>
-    /// <param name="append">Append existing file? Default: False</param>
-    public JsonFileRepository(string pathToJsonFile, ILogger logger, bool append = false) {
+    /// <param name="useExistingFile">Reuse existing file? Default: False</param>
+    public JsonFileRepository(string pathToJsonFile, ILogger logger, bool useExistingFile = false) {
       this.pathToJsonFile = pathToJsonFile;
       this.logger = logger;
 
       if (!System.IO.File.Exists(pathToJsonFile)) {
         System.IO.File.CreateText(pathToJsonFile).Close();
       } else {
-        if (append) {
+        if (useExistingFile) {
           IEnumerable<File> files = GetAllFiles();
           if (files.Count() != 0) {
             fileIndex = files.OrderByDescending(p => p.FileId).First().FileId + 1;
           }
+        } else {
+          System.IO.File.Delete(pathToJsonFile);
         }
-        //throw new Exception("The file database already exists");
       }
     }
 
