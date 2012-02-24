@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.IO;
 using System.Reflection;
 using Gopher.Core.Data;
 using Gopher.Core.Logging;
@@ -13,6 +11,8 @@ using Gopher.Core;
 
 namespace Gopher.Console {
   public class Program {
+    const int ConsoleInputBufferSize = 8192;
+
     [Import]
     public ILogger Logger { get; set; } 
 
@@ -25,18 +25,19 @@ namespace Gopher.Console {
     [Import]
     public IFolderRepository FolderRepository { get; set; }
 
-    public static void Main(string[] args) {
+    public static int Main(string[] args) {
       var program = new Program();
       if (program.compose()) {
-        program.Run();
+        return program.Run();
       } else {
         System.Console.WriteLine("Unable to compose");
+        return (int)CommandReturnCodes.Fail;
       }
     }
 
     private bool compose() {
       try {        
-        AggregateCatalog catalog = new AggregateCatalog();                
+        var catalog = new AggregateCatalog();                
         catalog.Catalogs.Add(new DirectoryCatalog(@".\plugins"));
         catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));        
         var container = new CompositionContainer(catalog);
@@ -60,17 +61,26 @@ namespace Gopher.Console {
       }
     }
 
-    public void Run() {
-      Logger.Info("Beginning to dig...");       
-      Stopwatch stopwatch = new Stopwatch();
-      stopwatch.Start();
-      foreach (FolderToScan folder in FolderToScanRepository.GetFoldersToScan()) {
-        Scanner scanner = new Scanner(FileRepository, FolderRepository, Logger);
-        scanner.ScanFolder(new System.IO.DirectoryInfo(folder.AbsolutePath));
-        System.Console.WriteLine(string.Format("Took {0} milliseconds to scan {1}", stopwatch.ElapsedMilliseconds, folder.PathAlias));  
-      }
-      System.Console.WriteLine(string.Format("Total run: {0} milliseconds", stopwatch.ElapsedMilliseconds));
-      stopwatch.Stop();
+    public int Run() {
+      System.Console.SetIn(new StreamReader(System.Console.OpenStandardInput(ConsoleInputBufferSize)));
+      var context = new GopherHostContext {
+        FileRepository = FileRepository,
+        FolderRepository = FolderRepository,
+        FolderToScanRepository = FolderToScanRepository,
+        Logger = Logger
+      };
+      return (int) new GopherHost(System.Console.In, System.Console.Out, context).Run();
+
+      //Logger.Info("Beginning to dig...");       
+      //Stopwatch stopwatch = new Stopwatch();
+      //stopwatch.Start();
+      //foreach (FolderToScan folder in FolderToScanRepository.GetFoldersToScan()) {
+      //  Scanner scanner = new Scanner(FileRepository, FolderRepository, Logger);
+      //  scanner.ScanFolder(new System.IO.DirectoryInfo(folder.AbsolutePath));
+      //  System.Console.WriteLine(string.Format("Took {0} milliseconds to scan {1} (Alias: {2})", stopwatch.ElapsedMilliseconds, folder.AbsolutePath, folder.PathAlias));  
+      //}
+      //System.Console.WriteLine(string.Format("Total run: {0} milliseconds", stopwatch.ElapsedMilliseconds));
+      //stopwatch.Stop();
     }
   }
 }

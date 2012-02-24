@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandReturnCodes.cs" />
     <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="GopherHost.cs" />
+    <Compile Include="GopherHostContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
