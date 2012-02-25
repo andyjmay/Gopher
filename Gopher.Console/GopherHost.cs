@@ -65,60 +65,75 @@ namespace Gopher.Console {
       if (string.IsNullOrWhiteSpace(command)) {
         return;
       }
-      string[] commandAndArgs = command.Split(' ');
+      command = command.ToLowerInvariant();
+      string[] commands = command.Split(' ');
 
-      switch (commandAndArgs[0]) {
-        case "index":
-          if (commandAndArgs.Length == 1) {
-            indexFolders();
-            break;
+      switch (commands.Length) {
+        case 2:
+          switch (command) {
+            case "append index":
+              indexFolders();
+              break;
+            case "clear index":
+              clearRepositories();
+              indexFolders();
+              break;
+            default:
+              showHelp();
+              break;
           }
-          if (commandAndArgs.Length == 3) {
-            indexFolders(commandAndArgs[1], commandAndArgs[2]);
-            break;
+          break;
+        case 4:
+          if (commands[0] == "clear") {
+            clearRepositories();
           }
-          showHelp();
+          indexFolder(new FolderToScan {
+            AbsolutePath = commands[2],
+            PathAlias = commands[3]
+          });
           break;
         default:
+          showHelp();
           break;
       }
+    }
+
+    private void clearRepositories() {
+      context.FileRepository.Clear();
+      context.FolderRepository.Clear();
+      System.Console.WriteLine("Index cleared.");
     }
 
     private void indexFolders() {
       var indexStopwatch = Stopwatch.StartNew();
       indexStopwatch.Start();
       foreach(FolderToScan folderToScan in context.FolderToScanRepository.GetFoldersToScan()) {
-        var folderStopwatch = Stopwatch.StartNew();
-        var scanner = new Scanner(context.FileRepository, context.FolderRepository, context.Logger);
-        scanner.ScanFolder(new DirectoryInfo(folderToScan.AbsolutePath), folderToScan);
-        System.Console.WriteLine(string.Format("Took {0} milliseconds to scan {1} (Alias: {2})", folderStopwatch.ElapsedMilliseconds, folderToScan.AbsolutePath, folderToScan.PathAlias));
-        folderStopwatch.Stop();
+        indexFolder(folderToScan);
       }
       indexStopwatch.Stop();
       System.Console.WriteLine(string.Format("Took {0} milliseconds total", indexStopwatch.ElapsedMilliseconds));
     }
 
-    private void indexFolders(string actualPath, string pathAlias) {
-      var folderToScan = new FolderToScan {
-                                            AbsolutePath = actualPath,
-                                            PathAlias = pathAlias
-                                          };
-      
-      Scanner scanner = new Scanner(context.FileRepository, context.FolderRepository, context.Logger);
-      scanner.ScanFolder(new DirectoryInfo(actualPath), folderToScan);
+    private void indexFolder(FolderToScan folderToScan) {
+      try {
+        var folderStopwatch = Stopwatch.StartNew();
+        var scanner = new Scanner(context.FileRepository, context.FolderRepository, context.Logger);
+        scanner.ScanFolder(new DirectoryInfo(folderToScan.AbsolutePath), folderToScan);
+        System.Console.WriteLine(string.Format("Took {0} milliseconds to scan {1} (Alias: {2})", folderStopwatch.ElapsedMilliseconds, folderToScan.AbsolutePath, folderToScan.PathAlias));
+        folderStopwatch.Stop();
+      } catch (Exception ex) {
+        context.Logger.ErrorException("Exception encountered while scanning " + folderToScan.AbsolutePath, ex);
+      }
     }
 
     private void showHelp() {
       output.WriteLine("The following are the available actions:");
       output.WriteLine("");
-      output.WriteLine("index [actual path] [path alias]");
+      output.WriteLine("[append|clear] index [actual path] [path alias]");
       output.WriteLine("   Creates a new index");
       output.WriteLine("   If no actual path and path alias are supplied, the"); 
       output.WriteLine("   folders to scan will be loaded from the repository.");
       output.WriteLine("");
-      output.WriteLine("search [search string]");
-      output.WriteLine("   If an index has already been created, searches the");
-      output.WriteLine("   index for any matching file or folder names.");
     }
 
   }

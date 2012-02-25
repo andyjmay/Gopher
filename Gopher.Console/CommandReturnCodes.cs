@@ -1,7 +1,6 @@
 ﻿namespace Gopher.Console {
   public enum CommandReturnCodes {
     Ok = 0,
-    Fail = 5,
-    Retry = 240
+    Fail = 1,
   }
 }

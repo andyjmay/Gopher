@@ -7,5 +7,7 @@ namespace Gopher.Console {
     public IFolderToScanRepository FolderToScanRepository { get; set; }
     public IFolderRepository FolderRepository { get; set; }
     public IFileRepository FileRepository { get; set; }
+    public int FileIndex { get; set; }
+    public int FolderIndex { get; set; }
   }
 }
