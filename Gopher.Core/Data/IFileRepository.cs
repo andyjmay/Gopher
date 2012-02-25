@@ -11,6 +11,8 @@ namespace Gopher.Core.Data {
 
     File Add(File fileToAdd);
 
-    IEnumerable<File> Add(IEnumerable<File> filesToAdd);    
+    IEnumerable<File> Add(IEnumerable<File> filesToAdd);
+
+    void Clear();
   }
 }

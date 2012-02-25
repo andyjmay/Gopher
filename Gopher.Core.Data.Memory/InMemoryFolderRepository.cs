@@ -47,6 +47,13 @@ namespace Gopher.Core.Data.Memory {
       return folders;
     }
 
+    public void Clear() {
+      folders.Clear();
+      folderIndex = 1;
+      batchSize = 0;
+      numberOfFoldersInCurrentBatch = 0;
+    }
+
     #endregion
   }
 }

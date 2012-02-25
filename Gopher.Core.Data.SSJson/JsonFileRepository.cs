@@ -36,8 +36,6 @@ namespace Gopher.Core.Data.SSJson {
           if (files.Count() != 0) {
             fileIndex = files.OrderByDescending(p => p.FileId).First().FileId + 1;
           }
-        } else {
-          System.IO.File.Delete(pathToJsonFile);
         }
       }
     }
@@ -91,6 +89,11 @@ namespace Gopher.Core.Data.SSJson {
         stream.Close();
       }
       return filesToAdd;
+    }
+
+    public void Clear() {
+      System.IO.File.Delete(pathToJsonFile);
+      fileIndex = 1;
     }
 
     #endregion

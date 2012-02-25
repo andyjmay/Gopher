@@ -29,8 +29,6 @@ namespace Gopher.Core.Data.SSJson {
           if (folders.Count() != 0) {
             folderIndex = folders.OrderByDescending(p => p.FolderId).First().FolderId + 1;
           }
-        } else {
-          System.IO.File.Delete(pathToJsonFile);
         }
       }
     }
@@ -58,6 +56,11 @@ namespace Gopher.Core.Data.SSJson {
         stream.Close();
       }
       return folders;
+    }
+
+    public void Clear() {
+      System.IO.File.Delete(pathToJsonFile);
+      folderIndex = 1;
     }
 
     public Folder Add(Folder folderToAdd) {

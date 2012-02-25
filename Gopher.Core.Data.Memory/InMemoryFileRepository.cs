@@ -55,5 +55,11 @@ namespace Gopher.Core.Data.Memory {
       }
       return filesToAdd;
     }
+
+    public void Clear() {
+      files.Clear();
+      fileIndex = 1;
+      numberOfFilesInCurrentBatch = 0;
+    }
   }
 }
