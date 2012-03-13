@@ -1,4 +1,7 @@
-﻿namespace Gopher.Core.Models {
+﻿using System;
+
+namespace Gopher.Core.Models {
+  [Serializable]
   public partial class Folder {
     /// <summary>
     /// Gets or sets the ID of the folder

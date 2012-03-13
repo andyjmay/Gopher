@@ -6,7 +6,7 @@ using System.Text;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
-using Gopher.Data.Json.Properties;
+using Gopher.Core.Data.Json.Properties;
 
 namespace Gopher.Core.Data.Json.Repositories {
   [Export(typeof(IFileRepository))]

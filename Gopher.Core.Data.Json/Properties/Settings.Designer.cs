@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gopher.Data.Json.Properties {
+namespace Gopher.Core.Data.Json.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

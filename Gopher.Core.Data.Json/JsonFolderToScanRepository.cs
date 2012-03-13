@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
-using Gopher.Data.Json.Properties;
+using Gopher.Core.Data.Json.Properties;
 
 namespace Gopher.Core.Data.Json {
   [Export(typeof(IFolderToScanRepository))]
