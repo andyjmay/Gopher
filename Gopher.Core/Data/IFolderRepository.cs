@@ -8,5 +8,7 @@ namespace Gopher.Core.Data {
     Folder Add(Folder folderToAdd);
 
     IEnumerable<Folder> GetFolders();
+
+    void Clear();
   }
 }

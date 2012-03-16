@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Gopher.Core.Data.SSJson.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FileRepositoryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileRepository.json</Value>
+    </Setting>
+    <Setting Name="FolderRepositoryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FolderRepository.json</Value>
+    </Setting>
+    <Setting Name="FolderToScanRepositoryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FolderToScanRepository.json</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
