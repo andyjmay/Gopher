@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace Gopher.Core.Models {
+  [Serializable]
   public partial class File {
     /// <summary>
     /// Gets or sets the entity ID of the project file

@@ -20,3 +20,6 @@ PublishProfiles/
 *.psess
 *.vsp
 *.csv
+*.ncrunchproject
+*.ncrunchsolution
+packages/
