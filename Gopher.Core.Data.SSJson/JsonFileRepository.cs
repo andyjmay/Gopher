@@ -10,7 +10,7 @@ using ServiceStack.Text;
 
 namespace Gopher.Core.Data.SSJson {
   [Export(typeof(IFileRepository))]
-  public class JsonFileRepository : IFileRepository {
+  public class JsonFileRepository : FileRepositoryBase {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;
     int fileIndex = 1;
@@ -42,11 +42,11 @@ namespace Gopher.Core.Data.SSJson {
 
     #region IFileRepository Members
 
-    public File GetById(int fileId) {
+    public override File GetById(int fileId) {
       throw new NotImplementedException("This method is not implemented in the JsonFileRepository for performance reasons.");
     }
 
-    public IEnumerable<File> GetAllFiles() {
+    public override IEnumerable<File> GetAllFiles() {
       var files = new List<File>();
       using (var stream = new System.IO.StreamReader(pathToJsonFile)) {
         while (!stream.EndOfStream) {
@@ -64,11 +64,11 @@ namespace Gopher.Core.Data.SSJson {
       return files;
     }
 
-    public IEnumerable<File> GetFilesInFolder(int folderId) {
+    public override IEnumerable<File> GetFilesInFolder(int folderId) {
       throw new NotImplementedException("This method is not implemented in the JsonFileRepository for performance reasons.");
     }
 
-    public File Add(File fileToAdd) {
+    public override File Add(File fileToAdd) {
       fileToAdd.FileId = fileIndex++;
       string fileJson = JsonSerializer.SerializeToString(fileToAdd);
       using (var stream = new System.IO.StreamWriter(pathToJsonFile, append: true)) {
@@ -78,7 +78,7 @@ namespace Gopher.Core.Data.SSJson {
       return fileToAdd;
     }
 
-    public IEnumerable<File> Add(IEnumerable<File> filesToAdd) {
+    public override IEnumerable<File> Add(IEnumerable<File> filesToAdd) {
       var fileJsonArray = new StringBuilder();
       foreach (File file in filesToAdd) {
         file.FileId = fileIndex++;
@@ -91,11 +91,19 @@ namespace Gopher.Core.Data.SSJson {
       return filesToAdd;
     }
 
-    public void Clear() {
+    public override void Clear() {
       System.IO.File.Delete(pathToJsonFile);
       fileIndex = 1;
     }
 
     #endregion
+
+    public override string Name {
+      get { return "ServiceStackJsonFileRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
+    }
   }
 }

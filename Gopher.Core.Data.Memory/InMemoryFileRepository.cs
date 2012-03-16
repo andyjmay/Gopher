@@ -6,7 +6,7 @@ using Gopher.Core.Models;
 
 namespace Gopher.Core.Data.Memory {
   [Export(typeof(IFileRepository))]
-  public class InMemoryFileRepository : IFileRepository {
+  public class InMemoryFileRepository : FileRepositoryBase {
     private List<File> files = new List<File>();
     private int fileIndex;
     private int batchSize = 0;
@@ -23,19 +23,19 @@ namespace Gopher.Core.Data.Memory {
       this.reachedBatchSize = reachedBatchSize;
     }
 
-    public File GetById(int fileId) {
+    public override File GetById(int fileId) {
       return files.Single(f => f.FileId == fileId);
     }
 
-    public IEnumerable<File> GetAllFiles() {
+    public override IEnumerable<File> GetAllFiles() {
       return files;
     }
 
-    public IEnumerable<File> GetFilesInFolder(int folderId) {
+    public override IEnumerable<File> GetFilesInFolder(int folderId) {
       return files.Where(f => f.FolderId == folderId);
     }
 
-    public File Add(File fileToAdd) {
+    public override File Add(File fileToAdd) {
       fileToAdd.FileId = fileIndex++;
       files.Add(fileToAdd);
       if (reachedBatchSize != null) {
@@ -49,17 +49,25 @@ namespace Gopher.Core.Data.Memory {
       return fileToAdd;
     }
 
-    public IEnumerable<File> Add(IEnumerable<File> filesToAdd) {
+    public override IEnumerable<File> Add(IEnumerable<File> filesToAdd) {
       foreach (var file in filesToAdd) {
         Add(file);
       }
       return filesToAdd;
     }
 
-    public void Clear() {
+    public override void Clear() {
       files.Clear();
       fileIndex = 1;
       numberOfFilesInCurrentBatch = 0;
+    }
+
+    public override string Name {
+      get { return "InMemoryFileRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
     }
   }
 }

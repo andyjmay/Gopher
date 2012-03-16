@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Gopher.Core.Data.Json.Properties;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
-using Gopher.Core.Data.Json.Properties;
 
-namespace Gopher.Core.Data.Json.Repositories {
+namespace Gopher.Core.Data.Json {
   [Export(typeof(IFolderRepository))]
-  public class JsonFolderRepository : IFolderRepository {
+  public class JsonFolderRepository : FolderRepositoryBase {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;
     int folderIndex = 1;
@@ -35,11 +35,11 @@ namespace Gopher.Core.Data.Json.Repositories {
 
     #region IFolderRepository Members
 
-    public Folder GetById(int folderId) {      
+    public override Folder GetById(int folderId) {
       throw new NotImplementedException("This method is not implemented in the JsonFolderRepository for performance reasons.");
     }
     
-    public IEnumerable<Folder> GetFolders() {
+    public override IEnumerable<Folder> GetFolders() {
       var folders = new List<Folder>();
       using (var stream = new System.IO.StreamReader(pathToJsonFile)) {
         while (!stream.EndOfStream) {
@@ -58,12 +58,20 @@ namespace Gopher.Core.Data.Json.Repositories {
       return folders;
     }
 
-    public void Clear() {
+    public override void Clear() {
       System.IO.File.Delete(pathToJsonFile);
       folderIndex = 1;
     }
 
-    public Folder Add(Folder folderToAdd) {
+    public override string Name {
+      get { return "JsonFolderRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
+    }
+
+    public override Folder Add(Folder folderToAdd) {
       folderToAdd.FolderId = folderIndex++;
       string folderJson = JsonConvert.SerializeObject(folderToAdd);
       using (var stream = new System.IO.StreamWriter(pathToJsonFile, append: true)) {

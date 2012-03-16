@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,9 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\FileRepositoryBase.cs" />
+    <Compile Include="Data\FolderRepositoryBase.cs" />
+    <Compile Include="Data\FolderToScanRepositoryBase.cs" />
     <Compile Include="Data\IFolderToScanRepository.cs" />
     <Compile Include="Data\IFileRepository.cs" />
     <Compile Include="Data\IFolderRepository.cs" />
+    <Compile Include="Infrastructure\IRepositoryMetadata.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Models\FolderToScan.cs" />
     <Compile Include="Models\File.cs" />

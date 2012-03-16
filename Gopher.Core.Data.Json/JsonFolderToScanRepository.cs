@@ -3,13 +3,13 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Gopher.Core.Data.Json.Properties;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
-using Gopher.Core.Data.Json.Properties;
 
 namespace Gopher.Core.Data.Json {
   [Export(typeof(IFolderToScanRepository))]
-  public class JsonFolderToScanRepository : IFolderToScanRepository {
+  public class JsonFolderToScanRepository : FolderToScanRepositoryBase {
     private string pathToJsonFile;
     private int folderToScanIndex;
 
@@ -30,11 +30,11 @@ namespace Gopher.Core.Data.Json {
       }
     }
 
-    public FolderToScan GetById(int folderToScanId) {
+    public override FolderToScan GetById(int folderToScanId) {
       return GetFoldersToScan().Single(f => f.FolderToScanId == folderToScanId);
     }
 
-    public IEnumerable<FolderToScan> GetFoldersToScan() {
+    public override IEnumerable<FolderToScan> GetFoldersToScan() {
       var foldersToScan = new List<FolderToScan>();
       using (var stream = new StreamReader(pathToJsonFile)) {
         while (!stream.EndOfStream) {
@@ -45,7 +45,7 @@ namespace Gopher.Core.Data.Json {
       return foldersToScan;
     }
 
-    public FolderToScan Add(FolderToScan folderToScan) {
+    public override FolderToScan Add(FolderToScan folderToScan) {
       folderToScan.FolderToScanId = folderToScanIndex++;
       string folderToScanJson = JsonConvert.SerializeObject(folderToScan);
       using (var stream = new StreamWriter(pathToJsonFile, append: true)) {
@@ -54,7 +54,7 @@ namespace Gopher.Core.Data.Json {
       return folderToScan;
     }
 
-    public IEnumerable<FolderToScan> Add(IEnumerable<FolderToScan> foldersToScan) {
+    public override IEnumerable<FolderToScan> Add(IEnumerable<FolderToScan> foldersToScan) {
       var jsonString = new StringBuilder();
       foreach (FolderToScan folderToScan in foldersToScan) {
         folderToScan.FolderToScanId = folderToScanIndex++;
@@ -64,6 +64,14 @@ namespace Gopher.Core.Data.Json {
         stream.Write(jsonString);
       }
       return foldersToScan;
+    }
+
+    public override string Name {
+      get { return "JsonFolderToScanRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
     }
   }
 }

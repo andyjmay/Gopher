@@ -10,7 +10,7 @@ using SimpleLucene.Impl;
 
 namespace Gopher.Core.Data.LuceneDb {
   [Export(typeof(IFolderRepository))]
-  public class LuceneDbFolderRepository : IFolderRepository {
+  public class LuceneDbFolderRepository : FolderRepositoryBase {
     private readonly System.IO.DirectoryInfo indexDirectory;
     private readonly Analyzer analyzer;
     private DirectoryIndexWriter directoryIndexWriter;
@@ -28,7 +28,7 @@ namespace Gopher.Core.Data.LuceneDb {
       directoryIndexWriter = new DirectoryIndexWriter(indexDirectory, analyzer, recreateIndex: !useExistingIndex);
     }
 
-    public Folder GetById(int folderId) {
+    public override Folder GetById(int folderId) {
       var indexSearcher = getSearcher();
       Folder folderInIndex = null;
       using (var searchService = new SearchService(indexSearcher)) {
@@ -38,7 +38,7 @@ namespace Gopher.Core.Data.LuceneDb {
       return folderInIndex;
     }
 
-    public Folder Add(Folder folderToAdd) {
+    public override Folder Add(Folder folderToAdd) {
       folderToAdd.FolderId = folderIndex++;
       using (var indexService = new IndexService(directoryIndexWriter)) {
         IndexResult indexResult = indexService.IndexEntity(folderToAdd, new FolderIndexDefinition());
@@ -46,7 +46,7 @@ namespace Gopher.Core.Data.LuceneDb {
       return folderToAdd;
     }
 
-    public IEnumerable<Folder> GetFolders() {
+    public override IEnumerable<Folder> GetFolders() {
       var indexSearcher = getSearcher();
       var folders = new List<Folder>();
       using (var searchService = new SearchService(indexSearcher)) {
@@ -56,10 +56,18 @@ namespace Gopher.Core.Data.LuceneDb {
       return folders;
     }
 
-    public void Clear() {
+    public override void Clear() {
       directoryIndexWriter = new DirectoryIndexWriter(indexDirectory, recreateIndex: true);
       directoryIndexWriter.Create();
       folderIndex = 1;
+    }
+
+    public override string Name {
+      get { return "LuceneDbFolderRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
     }
 
     private DirectoryIndexSearcher getSearcher() {

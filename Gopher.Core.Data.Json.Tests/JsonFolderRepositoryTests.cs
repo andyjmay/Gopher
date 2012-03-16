@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Gopher.Core.Logging;
-using Gopher.Core.Data.Json.Repositories;
 using Gopher.Core.Data;
 using Gopher.Core.Models;
 

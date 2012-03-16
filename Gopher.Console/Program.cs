@@ -5,9 +5,6 @@ using System.IO;
 using System.Reflection;
 using Gopher.Core.Data;
 using Gopher.Core.Logging;
-using Gopher.Core.Models;
-using System.Diagnostics;
-using Gopher.Core;
 
 namespace Gopher.Console {
   public class Program {

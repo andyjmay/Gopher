@@ -6,7 +6,7 @@ using Gopher.Core.Models;
 
 namespace Gopher.Core.Data.Memory {
   [Export(typeof(IFolderRepository))]
-  public class InMemoryFolderRepository : IFolderRepository {
+  public class InMemoryFolderRepository : FolderRepositoryBase {
     private List<Folder> folders = new List<Folder>();
     private int folderIndex;
     private int batchSize = 0;
@@ -25,11 +25,11 @@ namespace Gopher.Core.Data.Memory {
 
     #region IFolderRepository Members
 
-    public Folder GetById(int folderId) {
+    public override Folder GetById(int folderId) {
       return folders.Single(p => p.FolderId == folderId);
     }
 
-    public Folder Add(Folder folderToAdd) {
+    public override Folder Add(Folder folderToAdd) {
       folderToAdd.FolderId = folderIndex++;
       folders.Add(folderToAdd);      
       if (reachedBatchSize != null) {
@@ -43,15 +43,23 @@ namespace Gopher.Core.Data.Memory {
       return folderToAdd;
     }
 
-    public IEnumerable<Folder> GetFolders() {
+    public override IEnumerable<Folder> GetFolders() {
       return folders;
     }
 
-    public void Clear() {
+    public override void Clear() {
       folders.Clear();
       folderIndex = 1;
       batchSize = 0;
       numberOfFoldersInCurrentBatch = 0;
+    }
+
+    public override string Name {
+      get { return "InMemoryFolderRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
     }
 
     #endregion

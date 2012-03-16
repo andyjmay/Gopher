@@ -9,7 +9,7 @@ using ServiceStack.Text;
 
 namespace Gopher.Core.Data.SSJson {
   [Export(typeof(IFolderToScanRepository))]
-  public class JsonFolderToScanRepository : IFolderToScanRepository {
+  public class JsonFolderToScanRepository : FolderToScanRepositoryBase {
     private string pathToJsonFile;
     private int folderToScanIndex;
 
@@ -30,11 +30,11 @@ namespace Gopher.Core.Data.SSJson {
       }
     }
 
-    public FolderToScan GetById(int folderToScanId) {
+    public override FolderToScan GetById(int folderToScanId) {
       return GetFoldersToScan().Single(f => f.FolderToScanId == folderToScanId);
     }
 
-    public IEnumerable<FolderToScan> GetFoldersToScan() {
+    public override IEnumerable<FolderToScan> GetFoldersToScan() {
       var foldersToScan = new List<FolderToScan>();
       using (var stream = new StreamReader(pathToJsonFile)) {
         while (!stream.EndOfStream) {
@@ -45,7 +45,7 @@ namespace Gopher.Core.Data.SSJson {
       return foldersToScan;
     }
 
-    public FolderToScan Add(FolderToScan folderToScan) {
+    public override FolderToScan Add(FolderToScan folderToScan) {
       folderToScan.FolderToScanId = folderToScanIndex++;
       string folderToScanJson = JsonSerializer.SerializeToString(folderToScan);
       using (var stream = new StreamWriter(pathToJsonFile, append: true)) {
@@ -54,7 +54,7 @@ namespace Gopher.Core.Data.SSJson {
       return folderToScan;
     }
 
-    public IEnumerable<FolderToScan> Add(IEnumerable<FolderToScan> foldersToScan) {
+    public override IEnumerable<FolderToScan> Add(IEnumerable<FolderToScan> foldersToScan) {
       var jsonString = new StringBuilder();
       foreach (FolderToScan folderToScan in foldersToScan) {
         folderToScan.FolderToScanId = folderToScanIndex++;
@@ -64,6 +64,14 @@ namespace Gopher.Core.Data.SSJson {
         stream.Write(jsonString);
       }
       return foldersToScan;
+    }
+
+    public override string Name {
+      get { return "ServiceStackJsonFolderToScanRepository"; }
+    }
+
+    public override string Version {
+      get { return "ServiceStackJsonFolderToScanRepository"; }
     }
   }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-using Gopher.Core.Data.Json.Repositories;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
 

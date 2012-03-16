@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.ComponentModel.Composition;
 using Gopher.Core.Models;
 
 namespace Gopher.Core.Data.Memory {
   [Export(typeof(IFolderToScanRepository))]
-  public class InMemoryFolderToScanRepository : IFolderToScanRepository {
+  public class InMemoryFolderToScanRepository : FolderToScanRepositoryBase {
     private List<FolderToScan> foldersToScan;
     private int folderToScanIndex;
 
@@ -18,25 +16,33 @@ namespace Gopher.Core.Data.Memory {
 
     #region IFolderToScanRepository Members
 
-    public FolderToScan GetById(int folderToScanId) {
+    public override FolderToScan GetById(int folderToScanId) {
       return foldersToScan.SingleOrDefault(f => f.FolderToScanId == folderToScanId);
     }
 
-    public IEnumerable<FolderToScan> GetFoldersToScan() {
+    public override IEnumerable<FolderToScan> GetFoldersToScan() {
       return foldersToScan;
     }
 
-    public FolderToScan Add(FolderToScan folderToScan) {
+    public override FolderToScan Add(FolderToScan folderToScan) {
       folderToScan.FolderToScanId = folderToScanIndex++;
       foldersToScan.Add(folderToScan);
       return folderToScan;
     }
 
-    public IEnumerable<FolderToScan> Add(IEnumerable<FolderToScan> foldersToScan) {
+    public override IEnumerable<FolderToScan> Add(IEnumerable<FolderToScan> foldersToScan) {
       foreach (FolderToScan folder in foldersToScan) {
         Add(folder);
       }
       return foldersToScan;
+    }
+
+    public override string Name {
+      get { return "InMemoryFolderToScanRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
     }
 
     #endregion

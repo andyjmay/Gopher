@@ -10,7 +10,7 @@ using SimpleLucene.Impl;
 
 namespace Gopher.Core.Data.LuceneDb {
   [Export(typeof(IFileRepository))]
-  public class LuceneDbFileRepository : IFileRepository {
+  public class LuceneDbFileRepository : FileRepositoryBase {
     private readonly System.IO.DirectoryInfo indexDirectory;
     private readonly Analyzer analyzer;
     private DirectoryIndexWriter directoryIndexWriter;
@@ -28,7 +28,7 @@ namespace Gopher.Core.Data.LuceneDb {
       directoryIndexWriter = new DirectoryIndexWriter(indexDirectory, analyzer, recreateIndex: !useExistingIndex);
     }
 
-    public File GetById(int projectFileId) {
+    public override File GetById(int projectFileId) {
       var indexSearcher = getSearcher();
       File fileInIndex = null;
       using (var searchService = new SearchService(indexSearcher)) {
@@ -38,7 +38,7 @@ namespace Gopher.Core.Data.LuceneDb {
       return fileInIndex;
     }
 
-    public IEnumerable<File> GetAllFiles() {
+    public override IEnumerable<File> GetAllFiles() {
       var indexSearcher = getSearcher();
       var files = new List<File>();
       using (var searchService = new SearchService(indexSearcher)) {
@@ -48,7 +48,7 @@ namespace Gopher.Core.Data.LuceneDb {
       return files;
     }
 
-    public IEnumerable<File> GetFilesInFolder(int folderId) {
+    public override IEnumerable<File> GetFilesInFolder(int folderId) {
       var indexSearcher = getSearcher();
       var files = new List<File>();
       using (var searchService = new SearchService(indexSearcher)) {
@@ -58,7 +58,7 @@ namespace Gopher.Core.Data.LuceneDb {
       return files;
     }
 
-    public File Add(File fileToAdd) {
+    public override File Add(File fileToAdd) {
       fileToAdd.FileId = fileIndex++;
       using (var indexService = new IndexService(directoryIndexWriter)) {
         IndexResult indexResult = indexService.IndexEntity(fileToAdd, new FileIndexDefinition());
@@ -66,7 +66,7 @@ namespace Gopher.Core.Data.LuceneDb {
       return fileToAdd;
     }
 
-    public IEnumerable<File> Add(IEnumerable<File> filesToAdd) {
+    public override IEnumerable<File> Add(IEnumerable<File> filesToAdd) {
       var filesToAddToLucene = new List<File>();
       foreach (File file in filesToAdd) {
         file.FileId = fileIndex++;
@@ -78,10 +78,18 @@ namespace Gopher.Core.Data.LuceneDb {
       return filesToAddToLucene;
     }
 
-    public void Clear() {
+    public override void Clear() {
       directoryIndexWriter = new DirectoryIndexWriter(indexDirectory, recreateIndex: true);
       directoryIndexWriter.Create();
       fileIndex = 1;
+    }
+
+    public override string Name {
+      get { return "LuceneDbFileRepository"; }
+    }
+
+    public override string Version {
+      get { return "1.0"; }
     }
 
     private DirectoryIndexSearcher getSearcher() {
