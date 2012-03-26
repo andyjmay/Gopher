@@ -34,12 +34,14 @@ namespace Gopher.Console {
     public void ErrorException(string message, Exception ex) {
       System.Console.ForegroundColor = ConsoleColor.DarkRed;
       System.Console.WriteLine(message);
+      System.Console.WriteLine(ex);
       System.Console.ResetColor();
     }
 
     public void FatalException(string message, Exception ex) {
       System.Console.ForegroundColor = ConsoleColor.Red;
       System.Console.WriteLine(message);
+      System.Console.WriteLine(ex);
       System.Console.ResetColor();
     }
 

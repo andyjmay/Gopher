@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using Gopher.Core.Infrastructure;
 using Gopher.Core.Models;
 
 namespace Gopher.Core.Data {
-  [Export(typeof(IFileRepository))]
   public abstract class FileRepositoryBase : IFileRepository, IRepositoryMetadata {
     #region Implementation of IFileRepository
     public abstract File GetById(int projectFileId);
