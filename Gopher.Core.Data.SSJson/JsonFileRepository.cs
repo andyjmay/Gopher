@@ -93,6 +93,7 @@ namespace Gopher.Core.Data.SSJson {
 
     public override void Clear() {
       System.IO.File.Delete(pathToJsonFile);
+      System.IO.File.CreateText(pathToJsonFile).Close();
       fileIndex = 1;
     }
 
