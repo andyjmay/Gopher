@@ -8,7 +8,7 @@ using Gopher.Core.Models;
 using Newtonsoft.Json;
 
 namespace Gopher.Core.Data.Json {
-  [Export(typeof(IFolderRepository))]
+  [Export(typeof(FolderRepositoryBase))]
   public class JsonFolderRepository : FolderRepositoryBase {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;

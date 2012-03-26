@@ -8,7 +8,7 @@ using Gopher.Core.Models;
 using ServiceStack.Text;
 
 namespace Gopher.Core.Data.SSJson {
-  [Export(typeof(IFolderRepository))]
+  [Export(typeof(FolderRepositoryBase))]
   public class JsonFolderRepository : FolderRepositoryBase {
     private readonly ILogger logger;
     private readonly string pathToJsonFile;
