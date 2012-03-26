@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Gopher.Core.Data;
 using Gopher.Core.Logging;
 using Gopher.Core.Models;
@@ -8,12 +9,13 @@ namespace Gopher.Core {
   public class Scanner {
     private readonly IFileRepository fileRepository;
     private readonly IFolderRepository folderRepository;
-    private readonly ILogger logger;
+        
+    public ILogger Logger { get; set; }
 
     public Scanner(IFileRepository fileRepository, IFolderRepository folderRepository, ILogger logger) {
       this.fileRepository = fileRepository;
       this.folderRepository = folderRepository;
-      this.logger = logger;
+      this.Logger = logger;
     }
 
     public void ScanFolder(System.IO.DirectoryInfo directoryInfo, FolderToScan folderToScan, int? parentFolderId = null) {
@@ -24,7 +26,7 @@ namespace Gopher.Core {
           ParentFolderId = parentFolderId
         };
         folderRepository.Add(folder);        
-        logger.Trace("Added folder " + folder.Path);
+        Logger.Trace("Added folder " + folder.Path);
 
         var fileInfos = directoryInfo.EnumerateFiles("*", System.IO.SearchOption.TopDirectoryOnly);
         var files = new List<Models.File>();
@@ -41,11 +43,11 @@ namespace Gopher.Core {
               LastWriteTime = fileInfo.LastWriteTime
             };
             files.Add(file);
-            logger.Trace("Added file " + file.Name);
+            Logger.Trace("Added file " + file.Name);
           } catch (System.IO.PathTooLongException ex) {
             // TODO: Handle these (very common) errors
           } catch (Exception ex) {
-            logger.ErrorException("Error scanning file " + fileInfo.FullName, ex);
+            Logger.ErrorException("Error scanning file " + fileInfo.FullName, ex);
           }
         }
         fileRepository.Add(files);
@@ -56,7 +58,7 @@ namespace Gopher.Core {
       } catch (System.IO.PathTooLongException ex) {
         // TODO: Handle these (very common) errors
       } catch (Exception ex) {
-        logger.ErrorException("Error scanning directory " + directoryInfo.FullName, ex);
+        Logger.ErrorException("Error scanning directory " + directoryInfo.FullName, ex);
       }
     }
 
@@ -68,7 +70,7 @@ namespace Gopher.Core {
           ParentFolderId = parentFolderId
         };
         folderRepository.Add(folder);
-        logger.Trace("Added folder " + folder.Path);
+        Logger.Trace("Added folder " + folder.Path);
 
         var fileInfos = directoryInfo.EnumerateFiles("*", System.IO.SearchOption.TopDirectoryOnly);
         var files = new List<Models.File>();
@@ -85,9 +87,9 @@ namespace Gopher.Core {
               LastWriteTime = fileInfo.LastWriteTime
             };
             files.Add(file);
-            logger.Trace("Added file " + file.Name);
+            Logger.Trace("Added file " + file.Name);
           } catch (Exception ex) {
-            logger.ErrorException("Error scanning file " + fileInfo.FullName, ex);
+            Logger.ErrorException("Error scanning file " + fileInfo.FullName, ex);
           }
         }
         fileRepository.Add(files);
@@ -96,7 +98,7 @@ namespace Gopher.Core {
           ScanFolder(subDirectory, parentFolderId=folder.FolderId);
         }
       } catch (Exception ex){
-        logger.ErrorException("Error scanning directory " + directoryInfo.FullName, ex);
+        Logger.ErrorException("Error scanning directory " + directoryInfo.FullName, ex);
       }
     }
   }

@@ -4,14 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Gopher.Core.Data.Json.Properties;
+using Gopher.Core.Logging;
 using Gopher.Core.Models;
 using Newtonsoft.Json;
 
 namespace Gopher.Core.Data.Json {
-  [Export(typeof(IFolderToScanRepository))]
+  [Export(typeof(FolderToScanRepositoryBase))]
   public class JsonFolderToScanRepository : FolderToScanRepositoryBase {
     private string pathToJsonFile;
     private int folderToScanIndex;
+
+    [Import]
+    public ILogger Logger { get; set; }
 
     public JsonFolderToScanRepository() : this(Settings.Default.FolderToScanRepositoryPath) { }
 
@@ -22,7 +26,7 @@ namespace Gopher.Core.Data.Json {
         folderToScanIndex = 1;
       } else {
         var currentFolders = GetFoldersToScan();
-        if (currentFolders.Count() == 0) {
+        if (!currentFolders.Any()) {
           folderToScanIndex = 1;
         } else {
           folderToScanIndex = currentFolders.OrderByDescending(f => f.FolderToScanId).First().FolderToScanId + 1;
@@ -38,8 +42,14 @@ namespace Gopher.Core.Data.Json {
       var foldersToScan = new List<FolderToScan>();
       using (var stream = new StreamReader(pathToJsonFile)) {
         while (!stream.EndOfStream) {
-          var folderToScan = (FolderToScan)JsonConvert.DeserializeObject(stream.ReadLine(), typeof(FolderToScan));
-          foldersToScan.Add(folderToScan);
+          string json = stream.ReadLine();
+          if (!string.IsNullOrWhiteSpace(json)) {
+            try {
+              foldersToScan.Add(JsonConvert.DeserializeObject<FolderToScan>(json));
+            } catch (System.Exception ex) {
+              if (Logger != null) Logger.ErrorException("Error while getting folders to scan", ex);
+            }
+          }
         }
       }
       return foldersToScan;
@@ -64,6 +74,13 @@ namespace Gopher.Core.Data.Json {
         stream.Write(jsonString);
       }
       return foldersToScan;
+    }
+
+    public override void Remove(FolderToScan folderToScan) {
+      List<FolderToScan> existingFoldersToScan = GetFoldersToScan().ToList();
+      existingFoldersToScan.RemoveAll(f => f.AbsolutePath.ToLower() == folderToScan.AbsolutePath.ToLower());
+      string json = JsonConvert.SerializeObject(existingFoldersToScan);
+      System.IO.File.WriteAllText(pathToJsonFile, json);
     }
 
     public override string Name {

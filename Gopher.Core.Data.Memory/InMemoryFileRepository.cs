@@ -5,7 +5,7 @@ using System.Linq;
 using Gopher.Core.Models;
 
 namespace Gopher.Core.Data.Memory {
-  [Export(typeof(IFileRepository))]
+  [Export(typeof(FileRepositoryBase))]
   public class InMemoryFileRepository : FileRepositoryBase {
     private List<File> files = new List<File>();
     private int fileIndex;

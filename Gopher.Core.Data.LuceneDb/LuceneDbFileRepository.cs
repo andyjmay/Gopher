@@ -9,7 +9,7 @@ using SimpleLucene;
 using SimpleLucene.Impl;
 
 namespace Gopher.Core.Data.LuceneDb {
-  [Export(typeof(IFileRepository))]
+  [Export(typeof(FileRepositoryBase))]
   public class LuceneDbFileRepository : FileRepositoryBase {
     private readonly System.IO.DirectoryInfo indexDirectory;
     private readonly Analyzer analyzer;

@@ -4,9 +4,9 @@ using System.ComponentModel.Composition;
 using Gopher.Core.Models;
 
 namespace Gopher.Core.Data.Memory {
-  [Export(typeof(IFolderToScanRepository))]
+  [Export(typeof(FolderToScanRepositoryBase))]
   public class InMemoryFolderToScanRepository : FolderToScanRepositoryBase {
-    private List<FolderToScan> foldersToScan;
+    private readonly List<FolderToScan> foldersToScan;
     private int folderToScanIndex;
 
     public InMemoryFolderToScanRepository(int folderToScanIndex = 1) {
@@ -35,6 +35,10 @@ namespace Gopher.Core.Data.Memory {
         Add(folder);
       }
       return foldersToScan;
+    }
+
+    public override void Remove(FolderToScan folderToScan) {
+      foldersToScan.RemoveAll(f => f.AbsolutePath.ToLower() == folderToScan.AbsolutePath.ToLower());
     }
 
     public override string Name {

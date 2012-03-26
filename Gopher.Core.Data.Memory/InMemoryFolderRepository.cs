@@ -5,13 +5,13 @@ using System.Linq;
 using Gopher.Core.Models;
 
 namespace Gopher.Core.Data.Memory {
-  [Export(typeof(IFolderRepository))]
+  [Export(typeof(FolderRepositoryBase))]
   public class InMemoryFolderRepository : FolderRepositoryBase {
-    private List<Folder> folders = new List<Folder>();
+    private readonly List<Folder> folders = new List<Folder>();
     private int folderIndex;
     private int batchSize = 0;
     private int numberOfFoldersInCurrentBatch = 0;
-    private Action<IEnumerable<Folder>> reachedBatchSize;
+    private readonly Action<IEnumerable<Folder>> reachedBatchSize;
 
     public InMemoryFolderRepository(int folderIndex = 1) {
       this.folderIndex = folderIndex;
